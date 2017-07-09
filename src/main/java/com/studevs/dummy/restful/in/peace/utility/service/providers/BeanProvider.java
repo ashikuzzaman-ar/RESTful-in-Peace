@@ -1,7 +1,10 @@
 package com.studevs.dummy.restful.in.peace.utility.service.providers;
 
+import com.studevs.dummy.restful.in.peace.models.system.Log;
 import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
@@ -35,6 +38,7 @@ public class BeanProvider implements Serializable {
             return (T) this.CONTEXT.getBean(beanName);
         } catch (BeansException e) {
 
+            this.logger(e, null, null);
             return null;
         }
     }
@@ -55,6 +59,39 @@ public class BeanProvider implements Serializable {
         } catch (IllegalStateException | BeansException e) {
 
             throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    protected void logger(Exception e, Object object, Long userId) {
+
+        Log log = this.getBean("log");
+        Session session = ((SessionProvider) this.getBean("session")).getSession();
+        Transaction transaction = null;
+
+        try {
+
+            transaction = session.beginTransaction();
+            log.setExceptionClass(e.getClass().getName());
+            log.setMessage(e.getMessage());
+            log.setParentClass(this.getClass().getName());
+            if (userId != null) {
+
+                log.setUserId(userId);
+            }
+            if (object != null) {
+
+                log.setObjectState(object.toString());
+            }
+            session.persist(log);
+            transaction.commit();
+        } catch (Exception ex) {
+
+            if (transaction != null) {
+
+                transaction.rollback();
+            }
+
+            throw new ExceptionInInitializerError(ex);
         }
     }
 }
