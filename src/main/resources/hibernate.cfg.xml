@@ -34,6 +34,7 @@
         <!--Models Retated To Users-->
         <mapping class="com.studevs.dummy.restful.in.peace.models.user.Doctor" />
         <mapping class="com.studevs.dummy.restful.in.peace.models.user.Patient" />
+        <mapping class="com.studevs.dummy.restful.in.peace.models.user.Visiting" />
         <!--Model Mapping Start-->
     </session-factory>
 </hibernate-configuration>
