@@ -2,6 +2,7 @@ package com.studevs.dummy.restful.in.peace.models.user;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,4 +83,138 @@ public class Visiting implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Patient patient;
+
+    public Visiting() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getDoctorFee() {
+        return doctorFee;
+    }
+
+    public void setDoctorFee(Double doctorFee) {
+        this.doctorFee = doctorFee;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public String getPrediction() {
+        return prediction;
+    }
+
+    public void setPrediction(String prediction) {
+        this.prediction = prediction;
+    }
+
+    public String getSuggestions() {
+        return suggestions;
+    }
+
+    public void setSuggestions(String suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public Boolean getIsEffective() {
+        return isEffective;
+    }
+
+    public void setIsEffective(Boolean isEffective) {
+        this.isEffective = isEffective;
+    }
+
+    public Date getVisitingDate() {
+        return visitingDate;
+    }
+
+    public void setVisitingDate(Date visitingDate) {
+        this.visitingDate = visitingDate;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.doctorFee);
+        hash = 83 * hash + Objects.hashCode(this.symptoms);
+        hash = 83 * hash + Objects.hashCode(this.prediction);
+        hash = 83 * hash + Objects.hashCode(this.suggestions);
+        hash = 83 * hash + Objects.hashCode(this.isEffective);
+        hash = 83 * hash + Objects.hashCode(this.visitingDate);
+        hash = 83 * hash + Objects.hashCode(this.doctor);
+        hash = 83 * hash + Objects.hashCode(this.patient);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Visiting other = (Visiting) obj;
+        if (!Objects.equals(this.symptoms, other.symptoms)) {
+            return false;
+        }
+        if (!Objects.equals(this.prediction, other.prediction)) {
+            return false;
+        }
+        if (!Objects.equals(this.suggestions, other.suggestions)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.doctorFee, other.doctorFee)) {
+            return false;
+        }
+        if (!Objects.equals(this.isEffective, other.isEffective)) {
+            return false;
+        }
+        if (!Objects.equals(this.visitingDate, other.visitingDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.doctor, other.doctor)) {
+            return false;
+        }
+        return Objects.equals(this.patient, other.patient);
+    }
+
+    @Override
+    public String toString() {
+        return "Visiting{" + "id=" + id + ", doctorFee=" + doctorFee + ", symptoms=" + symptoms + ", prediction=" + prediction + ", suggestions=" + suggestions + ", isEffective=" + isEffective + ", visitingDate=" + visitingDate + ", doctor=" + doctor + ", patient=" + patient + '}';
+    }
 }
