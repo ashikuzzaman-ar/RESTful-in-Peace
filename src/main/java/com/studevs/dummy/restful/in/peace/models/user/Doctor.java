@@ -3,6 +3,7 @@ package com.studevs.dummy.restful.in.peace.models.user;
 import com.studevs.dummy.restful.in.peace.models.enums.Gender;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -96,4 +97,162 @@ public class Doctor implements Serializable {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Visiting> visitings;
+
+    public Doctor() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Set<Visiting> getVisitings() {
+        return visitings;
+    }
+
+    public void setVisitings(Set<Visiting> visitings) {
+        this.visitings = visitings;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.firstName);
+        hash = 79 * hash + Objects.hashCode(this.lastName);
+        hash = 79 * hash + Objects.hashCode(this.phone);
+        hash = 79 * hash + Objects.hashCode(this.address);
+        hash = 79 * hash + Objects.hashCode(this.city);
+        hash = 79 * hash + Objects.hashCode(this.state);
+        hash = 79 * hash + Objects.hashCode(this.country);
+        hash = 79 * hash + Objects.hashCode(this.gender);
+        hash = 79 * hash + Objects.hashCode(this.birthDate);
+        hash = 79 * hash + Objects.hashCode(this.visitings);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Doctor other = (Doctor) obj;
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this.phone, other.phone)) {
+            return false;
+        }
+        if (!Objects.equals(this.address, other.address)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (!Objects.equals(this.state, other.state)) {
+            return false;
+        }
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (this.gender != other.gender) {
+            return false;
+        }
+        if (!Objects.equals(this.birthDate, other.birthDate)) {
+            return false;
+        }
+        return Objects.equals(this.visitings, other.visitings);
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + ", visitings=" + visitings + '}';
+    }
 }
