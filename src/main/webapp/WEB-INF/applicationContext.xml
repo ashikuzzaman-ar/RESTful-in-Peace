@@ -27,8 +27,23 @@
 
 
     <!-- Utility beans -->
+    <bean id="session" class="com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider" init-method="initSession" destroy-method="destroySession" scope="request">
+    </bean>
 
+    <bean id="mapper" class="com.fasterxml.jackson.databind.ObjectMapper" scope="request">
+    </bean>
 
+    <bean id="message" class="java.util.LinkedList" scope="request">
+    </bean>
+
+    <bean id="messages" class="java.util.LinkedHashMap" scope="request">
+    </bean>
+
+    <bean id="date" class="java.util.Date" scope="prototype">
+    </bean>
     <!-- Model Beans -->
-    
+    <bean id="log" class="com.studevs.dummy.restful.in.peace.models.system.Log" scope="prototype">
+        <property name="date" ref="date">
+        </property>
+    </bean>
 </beans>
