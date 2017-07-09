@@ -31,7 +31,9 @@
         <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!--Model Mapping Start-->
-
+        <!--Models Retated To Users-->
+        <mapping class="com.studevs.dummy.restful.in.peace.models.user.Doctor" />
+        <mapping class="com.studevs.dummy.restful.in.peace.models.user.Patient" />
         <!--Model Mapping Start-->
     </session-factory>
 </hibernate-configuration>
