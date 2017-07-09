@@ -1,7 +1,9 @@
 package com.studevs.dummy.restful.in.peace.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.studevs.dummy.restful.in.peace.models.enums.Gender;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -12,10 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -28,6 +32,10 @@ import org.hibernate.annotations.LazyCollectionOption;
     @Index(columnList = "id", name = "patients_id")
     ,
     @Index(columnList = "city_name", name = "patients_city_name")
+    ,
+    @Index(columnList = "username", name = "patient_username")
+    ,
+    @Index(columnList = "email", name = "patient_email")
 })
 public class Patient implements Serializable {
 
@@ -40,6 +48,32 @@ public class Patient implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    /**
+     * Username of a patient for login to this portal. This field is not nullable.
+     */
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    /**
+     * Password for a patient. This field is not nullable. This field will be ignored in json creation. This field will be stored in byte array format which is a encrypted format for security reason.
+     */
+    @JsonIgnore
+    @Lob
+    @Column(name = "password", nullable = false)
+    private byte[] password;
+
+    /**
+     * Token for making any request. This field will not be persisted.
+     */
+    @Transient
+    private String token;
+
+    /**
+     * Email id of the patient. This field is not nullable.
+     */
+    @Column(name = "email", nullable = false)
+    private String email;
 
     /**
      * First name of the patient. This field is not nullable.
@@ -112,6 +146,44 @@ public class Patient implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+
+        String result = "";
+        for (byte b : this.password) {
+
+            result += ((char) b);
+        }
+        return result;
+    }
+
+    public void setPassword(String password) {
+        this.password = password.getBytes();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -196,8 +268,12 @@ public class Patient implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 5;
         hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.username);
+        hash = 79 * hash + Arrays.hashCode(this.password);
+        hash = 79 * hash + Objects.hashCode(this.token);
+        hash = 79 * hash + Objects.hashCode(this.email);
         hash = 79 * hash + Objects.hashCode(this.firstName);
         hash = 79 * hash + Objects.hashCode(this.lastName);
         hash = 79 * hash + Objects.hashCode(this.phone);
@@ -223,6 +299,15 @@ public class Patient implements Serializable {
             return false;
         }
         final Patient other = (Patient) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.token, other.token)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -247,6 +332,9 @@ public class Patient implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Arrays.equals(this.password, other.password)) {
+            return false;
+        }
         if (this.gender != other.gender) {
             return false;
         }
@@ -258,6 +346,6 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + ", visitings=" + visitings + '}';
+        return "Patient{" + "id=" + id + ", username=" + username + ", token=" + token + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + ", visitings=" + visitings + '}';
     }
 }
