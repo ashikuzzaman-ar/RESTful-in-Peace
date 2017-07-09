@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,7 +21,17 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @author ashik
  */
 @Entity
-@Table(name = "doctor_patient_visiting")
+@Table(name = "doctor_patient_visiting", indexes = {
+    @Index(columnList = "id", name = "doctor_patient_visiting_id")
+    ,
+    @Index(columnList = "doctor_fee", name = "doctor_patient_visiting_doctor_fee")
+    ,
+    @Index(columnList = "patient_symptoms", name = "doctor_patient_visiting_patient_symptoms")
+    ,
+    @Index(columnList = "doctor_prediction", name = "doctor_patient_visiting_doctor_prediction")
+    ,
+    @Index(columnList = "doctor_suggestion", name = "doctor_patient_visiting_doctor_suggestion")
+})
 public class Visiting implements Serializable {
 
     private static final long serialVersionUID = 1L;
