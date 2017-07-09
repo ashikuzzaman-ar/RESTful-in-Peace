@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,7 +24,11 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @author ashik
  */
 @Entity
-@Table(name = "doctors")
+@Table(name = "doctors", indexes = {
+    @Index(columnList = "id", name = "patients_id")
+    ,
+    @Index(columnList = "city", name = "patients_city")
+})
 public class Doctor implements Serializable {
 
     private static final long serialVersionUID = 1L;
