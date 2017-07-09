@@ -27,7 +27,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(name = "doctors", indexes = {
     @Index(columnList = "id", name = "patients_id")
     ,
-    @Index(columnList = "city", name = "patients_city")
+    @Index(columnList = "city_name", name = "patients_city_name")
 })
 public class Doctor implements Serializable {
 
