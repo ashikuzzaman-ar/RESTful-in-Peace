@@ -42,6 +42,9 @@
     <bean id="date" class="java.util.Date" scope="prototype">
     </bean>
     <!-- Model Beans -->
+    <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="request">
+    </bean>
+
     <bean id="log" class="com.studevs.dummy.restful.in.peace.models.system.Log" scope="prototype">
         <property name="date" ref="date">
         </property>
