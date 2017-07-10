@@ -22,8 +22,6 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(name = "doctor_patient_visiting", indexes = {
-    @Index(columnList = "id", name = "doctor_patient_visiting_id")
-    ,
     @Index(columnList = "doctor_fee", name = "doctor_patient_visiting_doctor_fee")
     ,
     @Index(columnList = "patient_symptoms", name = "doctor_patient_visiting_patient_symptoms")

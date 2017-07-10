@@ -19,8 +19,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "system_logs", indexes = {
-    @Index(columnList = "id", name = "log_list_id")
-    ,
     @Index(columnList = "user_id", name = "log_list_user_id")
     ,
     @Index(columnList = "log_date", name = "log_list_log_date")

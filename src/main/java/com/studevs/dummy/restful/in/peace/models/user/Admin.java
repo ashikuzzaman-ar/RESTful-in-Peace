@@ -18,8 +18,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "admin_authentication", indexes = {
-    @Index(columnList = "id", name = "admin_authentication_id")
-    ,
     @Index(columnList = "username", name = "admin_authentication_username")
 })
 public class Admin implements Serializable {
@@ -36,6 +34,9 @@ public class Admin implements Serializable {
 
     @Column(name = "password", nullable = false)
     private byte[] password;
+
+    @Column(name = "token")
+    private String token;
 
     @Column(name = "admin_privilege", nullable = false)
     private AdminPrivilege adminPrivilege;
@@ -73,6 +74,14 @@ public class Admin implements Serializable {
         this.password = password.getBytes();
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public AdminPrivilege getAdminPrivilege() {
         return adminPrivilege;
     }
@@ -83,10 +92,11 @@ public class Admin implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.username);
         hash = 97 * hash + Arrays.hashCode(this.password);
+        hash = 97 * hash + Objects.hashCode(this.token);
         hash = 97 * hash + Objects.hashCode(this.adminPrivilege);
         return hash;
     }
@@ -106,6 +116,9 @@ public class Admin implements Serializable {
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }
+        if (!Objects.equals(this.token, other.token)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -117,6 +130,6 @@ public class Admin implements Serializable {
 
     @Override
     public String toString() {
-        return "Admin{" + "id=" + id + ", username=" + username + ", adminPrivilege=" + adminPrivilege + '}';
+        return "Admin{" + "id=" + id + ", username=" + username + ", token=" + token + ", adminPrivilege=" + adminPrivilege + '}';
     }
 }
