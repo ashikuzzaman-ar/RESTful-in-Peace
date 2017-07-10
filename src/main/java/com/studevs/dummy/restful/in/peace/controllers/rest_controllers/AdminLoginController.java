@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -47,7 +48,25 @@ public class AdminLoginController extends BeanProvider {
 
     @RequestMapping(value = "login")
     @SuppressWarnings("unchecked")
-    protected String test(HttpServletRequest request,
+    protected String allAdminLogin(HttpServletRequest request) {
+
+        this.initializer(request);
+
+        try {
+
+            this.message.add("Request method is not supported!");
+            this.json = this.mapper.writeValueAsString(this.messages);
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, this.messages, null);
+        }
+
+        return json;
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @SuppressWarnings("unchecked")
+    protected String postAdminLogin(HttpServletRequest request,
             @ModelAttribute Admin adminModel,
             BindingResult bindingResult) {
 
