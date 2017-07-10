@@ -30,6 +30,9 @@
     <bean id="session" class="com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider" init-method="initSession" destroy-method="destroySession" scope="request">
     </bean>
 
+    <bean id="encrypt" class="com.studevs.dummy.restful.in.peace.utility.service.Encrypt" scope="request">
+    </bean>
+
     <bean id="mapper" class="com.fasterxml.jackson.databind.ObjectMapper" scope="request">
     </bean>
 
@@ -42,7 +45,16 @@
     <bean id="date" class="java.util.Date" scope="prototype">
     </bean>
     <!-- Model Beans -->
+    <bean id="admin" class="com.studevs.dummy.restful.in.peace.models.user.Admin" scope="prototype">
+    </bean>
+
     <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="request">
+    </bean>
+
+    <bean id="patient" class="com.studevs.dummy.restful.in.peace.models.user.Patient" scope="request">
+    </bean>
+
+    <bean id="visiting" class="com.studevs.dummy.restful.in.peace.models.user.Visiting" scope="request">
     </bean>
 
     <bean id="log" class="com.studevs.dummy.restful.in.peace.models.system.Log" scope="prototype">
