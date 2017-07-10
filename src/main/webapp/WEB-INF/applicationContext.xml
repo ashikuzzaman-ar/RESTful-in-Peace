@@ -67,6 +67,9 @@
     <bean id="doctorProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.DoctorProvider" scope="request">
     </bean>
 
+    <bean id="patientProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.PatientProvider" scope="request">
+    </bean>
+
     <bean id="adminProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.AdminProvider" scope="request">
     </bean>
 </beans>
