@@ -52,7 +52,7 @@ public class Patient implements Serializable {
     /**
      * Username of a patient for login to this portal. This field is not nullable.
      */
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     /**
@@ -72,7 +72,7 @@ public class Patient implements Serializable {
     /**
      * Email id of the patient. This field is not nullable.
      */
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     /**
