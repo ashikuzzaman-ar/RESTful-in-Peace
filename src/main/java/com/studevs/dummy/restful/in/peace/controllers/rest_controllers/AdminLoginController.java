@@ -30,6 +30,11 @@ public class AdminLoginController extends BeanProvider {
     private Map<String, List<String>> messages;
     private String json;
 
+    /**
+     * This method will initialize some necessary fields before starting other works.
+     *
+     * @param request
+     */
     private void initializer(HttpServletRequest request) {
 
         this.createContext(request);
@@ -41,6 +46,12 @@ public class AdminLoginController extends BeanProvider {
         this.json = "";
     }
 
+    /**
+     * login is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to login.
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "login")
     protected String allAdminLogin(HttpServletRequest request) {
 
@@ -58,6 +69,14 @@ public class AdminLoginController extends BeanProvider {
         return json;
     }
 
+    /**
+     * This is a method for accepting POST requests from client side. This method will be used for authenticating and generating token for admins.
+     *
+     * @param request
+     * @param adminModel
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     protected String postAdminLogin(HttpServletRequest request,
             @ModelAttribute Admin adminModel,
@@ -67,8 +86,14 @@ public class AdminLoginController extends BeanProvider {
 
         try {
 
+            /**
+             * If any binding error occurred then further attempt will not be taken.
+             */
             if (!bindingResult.hasErrors()) {
 
+                /**
+                 * username and password should not null and empty for authentication an admin.
+                 */
                 if ((adminModel.getUsername() != null && !adminModel.getUsername().isEmpty()) && (adminModel.getPassword() != null && !adminModel.getPassword().isEmpty())) {
 
                     try {
@@ -77,12 +102,18 @@ public class AdminLoginController extends BeanProvider {
                         Admin adminFromDB = adminProvider.getAdminByUsername(adminModel.getUsername(), this);
                         Encrypt encrypt = this.getBean("encrypt");
 
+                        /**
+                         * If admin fetching from database is null that means no data found in database which have such username.
+                         */
                         if (adminFromDB == null) {
 
                             this.message.add("User doesn't exist!");
                             this.json = this.mapper.writeValueAsString(this.messages);
                         } else if (encrypt.generateHash(adminModel.getPassword(), adminFromDB.getId()).equals(adminFromDB.getPassword())) {
 
+                            /**
+                             * If these two password is not same then admin provided wrong password.
+                             */
                             adminFromDB.setToken(encrypt.generateHash((adminFromDB.getUsername() + this.getBean("date") + adminFromDB.getPassword() + adminFromDB.getAdminPrivilege()), adminFromDB.getId()));
                             this.admin = this.getBean("admin");
                             this.admin.replicate(adminFromDB);

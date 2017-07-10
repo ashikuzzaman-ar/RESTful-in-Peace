@@ -32,6 +32,11 @@ public class CreateDoctorController extends BeanProvider {
     private Map<String, List<String>> messages;
     private String json;
 
+    /**
+     * This method will initialize some necessary fields before starting other works.
+     *
+     * @param request
+     */
     private void initializer(HttpServletRequest request) {
 
         this.createContext(request);
@@ -43,6 +48,15 @@ public class CreateDoctorController extends BeanProvider {
         this.json = "";
     }
 
+    /**
+     * This is a method for catching POST requests. This method will be used for inserting Doctor model instance into database. request parameter will be used for creating application context and refreshing context. token will be used for authentication, only valid admins can insert data into database. doctor instance will be used for persisting into database.
+     *
+     * @param request
+     * @param token
+     * @param doctor
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "doctor", method = RequestMethod.POST)
     protected String postCreateNewDoctor(HttpServletRequest request,
             @RequestParam(value = "token", defaultValue = "") String token,
@@ -53,19 +67,31 @@ public class CreateDoctorController extends BeanProvider {
 
         try {
 
+            /**
+             * If any binding error occurred then further attempt will not be taken.
+             */
             if (bindingResult.hasErrors()) {
 
                 this.message.add("Binding error!");
             } else {
 
+                /**
+                 * If token is empty then the user might not be a valid admin.
+                 */
                 if (token.isEmpty()) {
 
                     this.message.add("Empty token!");
                 } else {
 
                     Admin admin = this.getBean("admin");
+                    /**
+                     * If admin bean from session has equal token to this token then and only then the user is valid admin to do that.
+                     */
                     if (token.equals(admin.getToken())) {
 
+                        /**
+                         * If admin have proper right to insert data into database then and only then an admin can do that.
+                         */
                         if (admin.getAdminPrivilege() == AdminPrivilege.ALL || admin.getAdminPrivilege() == AdminPrivilege.CREATE) {
 
                             DoctorProvider doctorProvider = this.getBean("doctorProvider");

@@ -31,7 +31,7 @@ public class BeanProvider implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected <T> T getBean(String beanName) {
+    public <T> T getBean(String beanName) {
 
         try {
 
@@ -62,7 +62,14 @@ public class BeanProvider implements Serializable {
         }
     }
 
-    protected void logger(Exception e, Object object, Long userId) {
+    /**
+     * This method will log any exception happened in runtime. Exception instance e will be used for making trace of the bug. Object instance o will be used for object state of that time and userId will be used for understanding for whom this exception has been happened.
+     *
+     * @param e
+     * @param object
+     * @param userId
+     */
+    public void logger(final Exception e, Object object, Long userId) {
 
         Log log = this.getBean("log");
         Session session = ((SessionProvider) this.getBean("session")).getSession();

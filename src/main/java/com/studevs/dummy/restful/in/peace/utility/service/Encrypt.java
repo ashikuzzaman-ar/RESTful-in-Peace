@@ -11,6 +11,10 @@ import java.security.NoSuchAlgorithmException;
 public class Encrypt implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Salt key for encrypting any data. Multiple salt key will make sure that same string's hash key will be different in several times.
+     */
     private static final String[] SALT_KEY = new String[]{"ChoOsEyouRheADer", "tHIsIstaIl", "i\"MCOnfUsed", "WHatTHeHeLLIsthiS"/*MAny More should be added*/};
 
     public String generateHash(final String input, final Long id) {

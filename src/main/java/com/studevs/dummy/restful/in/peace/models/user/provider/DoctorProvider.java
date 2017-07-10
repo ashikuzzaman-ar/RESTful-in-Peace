@@ -15,6 +15,12 @@ public class DoctorProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * This method will check that all fields of Doctor model have right property setup. That means Doctor's model not null property should not be null. This method will check that all. If any field found null which should not be null then this method will return false. Otherwise this method will return true.
+     *
+     * @param doctor
+     * @return
+     */
     private boolean hasNoError(final Doctor doctor) {
 
         if (doctor.getUsername() == null || doctor.getUsername().isEmpty()) {
@@ -47,10 +53,20 @@ public class DoctorProvider implements Serializable {
         return doctor.getGender() != null;
     }
 
+    /**
+     * This method will insert Doctor's instance in database. It will take Doctor and BeanProvider instance as parameter and doctor is for persisting and beanProvider is for providing beans for this class. This method will return boolean type value. If a data is successfully persisted then it will return true otherwise it will return false.
+     *
+     * @param doctor
+     * @param beanProvider
+     * @return
+     */
     public boolean insertNewDoctor(final Doctor doctor, final BeanProvider beanProvider) {
 
         boolean isComplete = false;
 
+        /**
+         * beanProvider should not be null for providing beans and logger. doctor should not be null for persisting, a null value can't be persisted by hibernate.
+         */
         if (beanProvider != null && doctor != null && hasNoError(doctor)) {
 
             Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();

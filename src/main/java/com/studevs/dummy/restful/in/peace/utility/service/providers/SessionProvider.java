@@ -13,6 +13,9 @@ public class SessionProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Single session factory instance for the application.
+     */
     private static final SessionFactory SESSION_FACTORY = new Configuration().configure().buildSessionFactory();
 
     private Session session;
