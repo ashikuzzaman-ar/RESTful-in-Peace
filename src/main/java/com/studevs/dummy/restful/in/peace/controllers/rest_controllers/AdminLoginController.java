@@ -3,15 +3,12 @@ package com.studevs.dummy.restful.in.peace.controllers.rest_controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studevs.dummy.restful.in.peace.models.user.Admin;
+import com.studevs.dummy.restful.in.peace.models.user.provider.AdminProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.Encrypt;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
-import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +25,6 @@ public class AdminLoginController extends BeanProvider {
 
     private static final long serialVersionUID = 1L;
     private Admin admin;
-    private SessionProvider sessionProvider;
     private ObjectMapper mapper;
     private List<String> message;
     private Map<String, List<String>> messages;
@@ -42,12 +38,10 @@ public class AdminLoginController extends BeanProvider {
         this.message.clear();
         this.messages = this.getBean("messages");
         this.messages.put("messages", this.message);
-        this.sessionProvider = this.getBean("session");
         this.json = "";
     }
 
     @RequestMapping(value = "login")
-    @SuppressWarnings("unchecked")
     protected String allAdminLogin(HttpServletRequest request) {
 
         this.initializer(request);
@@ -65,7 +59,6 @@ public class AdminLoginController extends BeanProvider {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    @SuppressWarnings("unchecked")
     protected String postAdminLogin(HttpServletRequest request,
             @ModelAttribute Admin adminModel,
             BindingResult bindingResult) {
@@ -78,19 +71,12 @@ public class AdminLoginController extends BeanProvider {
 
                 if ((adminModel.getUsername() != null && !adminModel.getUsername().isEmpty()) && (adminModel.getPassword() != null && !adminModel.getPassword().isEmpty())) {
 
-                    Session session = this.sessionProvider.getSession();
-                    Transaction transaction = null;
-                    Query<Admin> query;
-
                     try {
 
-                        transaction = session.beginTransaction();
-                        query = session.createQuery("FROM Admin A WHERE A.username = :id_1");
-                        query.setParameter("id_1", adminModel.getUsername());
-                        Admin adminFromDB = query.uniqueResult();
-                        transaction.commit();
-
+                        AdminProvider adminProvider = this.getBean("adminProvider");
+                        Admin adminFromDB = adminProvider.getAdminByUsername(adminModel.getUsername(), this);
                         Encrypt encrypt = this.getBean("encrypt");
+
                         if (adminFromDB == null) {
 
                             this.message.add("User doesn't exist!");
@@ -108,12 +94,7 @@ public class AdminLoginController extends BeanProvider {
                         }
                     } catch (JsonProcessingException e) {
 
-                        if (transaction != null) {
-
-                            transaction.rollback();
-                        }
-
-                        this.logger(e, null, null);
+                        this.logger(e, adminModel, null);
                     }
                 } else {
 
