@@ -1,7 +1,8 @@
 package com.studevs.dummy.restful.in.peace.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.studevs.dummy.restful.in.peace.models.enums.AdminPrivilege;
-import java.io.Serializable;
+import com.studevs.dummy.restful.in.peace.utility.interfaces.Replicable;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 @Table(name = "admin_authentication", indexes = {
     @Index(columnList = "username", name = "admin_authentication_username")
 })
-public class Admin implements Serializable {
+public class Admin implements Replicable<Admin> {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +33,7 @@ public class Admin implements Serializable {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private byte[] password;
 
@@ -131,5 +133,15 @@ public class Admin implements Serializable {
     @Override
     public String toString() {
         return "Admin{" + "id=" + id + ", username=" + username + ", token=" + token + ", adminPrivilege=" + adminPrivilege + '}';
+    }
+
+    @Override
+    public void replicate(final Admin type) {
+
+        this.adminPrivilege = type.adminPrivilege;
+        this.id = type.id;
+        this.password = type.password;
+        this.token = type.token;
+        this.username = type.username;
     }
 }
