@@ -44,8 +44,9 @@
 
     <bean id="date" class="java.util.Date" scope="prototype">
     </bean>
+
     <!-- Model Beans -->
-    <bean id="admin" class="com.studevs.dummy.restful.in.peace.models.user.Admin" scope="prototype">
+    <bean id="admin" class="com.studevs.dummy.restful.in.peace.models.user.Admin" scope="session">
     </bean>
 
     <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="request">
@@ -60,5 +61,12 @@
     <bean id="log" class="com.studevs.dummy.restful.in.peace.models.system.Log" scope="prototype">
         <property name="date" ref="date">
         </property>
+    </bean>
+
+    <!--Service Providers for Models-->
+    <bean id="doctorProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.DoctorProvider" scope="request">
+    </bean>
+
+    <bean id="adminProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.AdminProvider" scope="request">
     </bean>
 </beans>
