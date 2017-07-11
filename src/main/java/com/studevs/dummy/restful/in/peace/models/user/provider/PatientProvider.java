@@ -1,6 +1,7 @@
 package com.studevs.dummy.restful.in.peace.models.user.provider;
 
 import com.studevs.dummy.restful.in.peace.models.user.Patient;
+import com.studevs.dummy.restful.in.peace.utility.service.Encrypt;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider;
 import java.io.Serializable;
@@ -118,6 +119,8 @@ public class PatientProvider implements Serializable {
 
                 transaction = session.beginTransaction();
                 session.persist(patient);
+                Encrypt encrypt = beanProvider.getBean("encrypt");
+                patient.setPassword(encrypt.generateHash(patient.getPassword(), patient.getId()));
                 transaction.commit();
                 isComplete = true;
             } catch (Exception e) {
