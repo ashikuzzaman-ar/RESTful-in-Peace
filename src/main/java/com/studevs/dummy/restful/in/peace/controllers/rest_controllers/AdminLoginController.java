@@ -131,6 +131,38 @@ public class AdminLoginController extends BeanProvider {
         return json;
     }
 
+    /**
+     * logout is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to logout.
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "logout")
+    protected String allAdminLogout(HttpServletRequest request) {
+
+        this.initializer(request);
+
+        String json = "";
+
+        try {
+
+            this.getMessage().add("Request method is not supported!");
+            json = this.getMapper().writeValueAsString(this.getMessages());
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, this.getMessages(), null);
+        }
+
+        return json;
+    }
+
+    /**
+     * This is a method for loging out of an admin account. This method will take token as security reason. If the token is valid then and only then the current admin session will be dismissed.
+     *
+     * @param request
+     * @param token
+     * @return
+     */
     @RequestMapping(value = "logout", method = RequestMethod.POST)
     protected String postAdminLogout(HttpServletRequest request,
             @RequestParam(value = "token", required = true, defaultValue = "") String token) {
