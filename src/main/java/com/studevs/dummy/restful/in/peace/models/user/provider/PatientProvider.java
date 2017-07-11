@@ -6,6 +6,7 @@ import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvi
 import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -14,6 +15,48 @@ import org.hibernate.Transaction;
 public class PatientProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * This method will fetch unique patient from database using username. If no data found then null this method will return null.
+     *
+     * @param username
+     * @param beanProvider
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public Patient getPatientByUsername(String username, BeanProvider beanProvider) {
+
+        Patient patient = null;
+
+        /**
+         * beanProvider can't be null for provind beans and logger. username can't be null or empty string.
+         */
+        if (beanProvider != null && username != null && !username.isEmpty()) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+            Query<Patient> query;
+
+            try {
+
+                transaction = session.beginTransaction();
+                query = session.createQuery("FROM Patient P WHERE P.username = :id_1");
+                query.setParameter("id_1", username);
+                patient = query.uniqueResult();
+                transaction.commit();
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, username, null);
+            }
+        }
+
+        return patient;
+    }
 
     /**
      * This method will check that all fields of Patient model have right property setup. That means Patient's model not null property should not be null. This method will check that all. If any field found null which should not be null then this method will return false. Otherwise this method will return true.
