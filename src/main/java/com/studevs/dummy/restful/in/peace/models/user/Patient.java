@@ -148,6 +148,11 @@ public class Patient implements Replicable<Patient> {
         this.id = id;
     }
 
+    public String getUserType() {
+
+        return this.getClass().getSimpleName().toUpperCase();
+    }
+
     public String getUsername() {
         return username;
     }

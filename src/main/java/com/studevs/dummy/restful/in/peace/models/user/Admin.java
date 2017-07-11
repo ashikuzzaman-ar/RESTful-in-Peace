@@ -25,6 +25,7 @@ public class Admin implements Replicable<Admin> {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -52,6 +53,11 @@ public class Admin implements Replicable<Admin> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserType() {
+
+        return this.getClass().getSimpleName().toUpperCase();
     }
 
     public String getUsername() {
