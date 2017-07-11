@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -120,6 +121,39 @@ public class AdminLoginController extends BeanProvider {
             } else {
 
                 this.getMessage().add("Data binding error!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            }
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, null, null);
+        }
+
+        return json;
+    }
+
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    protected String postAdminLogout(HttpServletRequest request,
+            @RequestParam(value = "token", required = true, defaultValue = "") String token) {
+
+        this.initializer(request);
+
+        String json = "";
+
+        try {
+
+            Admin admin = this.getBean("admin");
+            if (token.isEmpty()) {
+
+                this.getMessage().add("Empty token!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            } else if (token.equals(admin.getToken())) {
+
+                request.getSession().setAttribute("admin", null);
+                this.getMessage().add("Logout successful!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            } else {
+
+                this.getMessage().add("Invalid token!");
                 json = this.getMapper().writeValueAsString(this.getMessages());
             }
         } catch (JsonProcessingException e) {
