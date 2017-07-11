@@ -49,10 +49,10 @@
     <bean id="admin" class="com.studevs.dummy.restful.in.peace.models.user.Admin" scope="session">
     </bean>
 
-    <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="request">
+    <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="session">
     </bean>
 
-    <bean id="patient" class="com.studevs.dummy.restful.in.peace.models.user.Patient" scope="request">
+    <bean id="patient" class="com.studevs.dummy.restful.in.peace.models.user.Patient" scope="session">
     </bean>
 
     <bean id="visiting" class="com.studevs.dummy.restful.in.peace.models.user.Visiting" scope="request">
