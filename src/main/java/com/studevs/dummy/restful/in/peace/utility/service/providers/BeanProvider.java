@@ -71,7 +71,7 @@ public class BeanProvider implements Serializable {
      * @param request
      * @return
      */
-    protected XmlWebApplicationContext createContext(HttpServletRequest request) {
+    private XmlWebApplicationContext createContext(HttpServletRequest request) {
 
         try {
 
