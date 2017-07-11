@@ -1,7 +1,10 @@
 package com.studevs.dummy.restful.in.peace.utility.service.providers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studevs.dummy.restful.in.peace.models.system.Log;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,9 +21,28 @@ public class BeanProvider implements Serializable {
 
     private final XmlWebApplicationContext CONTEXT;
 
+    private ObjectMapper mapper;
+    private List<String> message;
+    private Map<String, List<String>> messages;
+
     protected BeanProvider() {
 
         this.CONTEXT = new XmlWebApplicationContext();
+    }
+
+    /**
+     * This method will initialize some necessary fields before starting other works.
+     *
+     * @param request
+     */
+    protected void initializer(HttpServletRequest request) {
+
+        this.createContext(request);
+        this.mapper = this.getBean("mapper");
+        this.message = this.getBean("message");
+        this.message.clear();
+        this.messages = this.getBean("messages");
+        this.messages.put("messages", this.message);
     }
 
     /**
@@ -100,5 +122,17 @@ public class BeanProvider implements Serializable {
 
             throw new ExceptionInInitializerError(ex);
         }
+    }
+
+    protected ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    protected List<String> getMessage() {
+        return message;
+    }
+
+    protected Map<String, List<String>> getMessages() {
+        return messages;
     }
 }
