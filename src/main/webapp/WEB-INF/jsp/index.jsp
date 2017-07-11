@@ -21,6 +21,20 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>User Login Testing</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/login" method="POST">
+                    <input type="text" name="username" placeholder="Username" /> <br/>
+                    <input type="password" name="password" placeholder="Password" /> <br/>
+                    <select name="userType">
+                        <option>PATIENT</option>
+                        <option>DOCTOR</option>
+                    </select><br/>
+                    <input type="submit" value="Log In" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Admin Login Testing</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/login" method="POST">
                     <input type="text" name="username" placeholder="Username" /> <br/>
@@ -53,6 +67,33 @@ License URL:
                     </select><br/>
                     <input type="date" name="birthDate" placeholder="Birth Date" /> <br/>
                     <input type="submit" value="Create Doctor" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
+                <h2>New Patient Creation</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/patient" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="username" placeholder="Username" /> <br/>
+                    <input type="password" name="password" placeholder="Password" /> <br/>
+                    <input type="text" name="email" placeholder="Email" /> <br/>
+                    <input type="text" name="firstName" placeholder="First Name" /> <br/>
+                    <input type="text" name="lastName" placeholder="Last Name" /> <br/>
+                    <input type="text" name="phone" placeholder="Phone" /> <br/>
+                    <input type="text" name="address" placeholder="Address" /> <br/>
+                    <input type="text" name="city" placeholder="City" /> <br/>
+                    <input type="text" name="state" placeholder="State" /> <br/>
+                    <input type="text" name="country" placeholder="Country" /> <br/>
+                    <select name="gender">
+                        <option>MALE</option>
+                        <option>FEMALE</option>
+                        <option>TRANSGENDER</option>
+                        <option>SHEMALE</option>
+                        <option>OTHER</option>
+                    </select><br/>
+                    <input type="date" name="birthDate" placeholder="Birth Date" /> <br/>
+                    <input type="submit" value="Create Patient" />
                 </form>
             </div>
         </div>

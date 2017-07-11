@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminLoginController extends BeanProvider {
 
     private static final long serialVersionUID = 1L;
-    private Admin admin;
 
     /**
      * login is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to login.
@@ -101,9 +100,9 @@ public class AdminLoginController extends BeanProvider {
                              * If these two password is not same then admin provided wrong password.
                              */
                             adminFromDB.setToken(encrypt.generateHash((adminFromDB.getUsername() + this.getBean("date") + adminFromDB.getPassword() + adminFromDB.getAdminPrivilege()), adminFromDB.getId()));
-                            this.admin = this.getBean("admin");
-                            this.admin.replicate(adminFromDB);
-                            json = this.getMapper().writeValueAsString(this.admin);
+                            Admin admin = this.getBean("admin");
+                            admin.replicate(adminFromDB);
+                            json = this.getMapper().writeValueAsString(admin);
                         } else {
 
                             this.getMessage().add("Password is incorrect!");
