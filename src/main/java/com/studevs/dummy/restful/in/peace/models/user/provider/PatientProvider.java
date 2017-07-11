@@ -18,6 +18,52 @@ public class PatientProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * This method will update any existing user from database.
+     *
+     * @param patient
+     * @param beanProvider
+     * @param passwordTrigger
+     * @return
+     */
+    public boolean updatePatient(final Patient patient, final BeanProvider beanProvider, final boolean passwordTrigger) {
+
+        boolean isUpdated = false;
+
+        if (beanProvider != null && patient != null && this.hasNoError(patient) && patient.getId() != null) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                session.update(patient);
+
+                /**
+                 * If the password trigger is true, it means that password has to be encrypt because it has been updated.
+                 */
+                if (!passwordTrigger) {
+
+                    Encrypt encrypt = beanProvider.getBean("encrypt");
+                    patient.setPassword(encrypt.generateHash(patient.getPassword(), patient.getId()));
+                }
+                transaction.commit();
+                isUpdated = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, patient, patient.getId());
+            }
+        }
+
+        return isUpdated;
+    }
+
+    /**
      * This method will fetch unique patient from database using username. If no data found then null this method will return null.
      *
      * @param username
