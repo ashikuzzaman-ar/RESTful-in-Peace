@@ -1,5 +1,6 @@
 package com.studevs.dummy.restful.in.peace.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -37,6 +38,7 @@ public class Visiting implements Serializable {
     /**
      * ID and primary key
      */
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

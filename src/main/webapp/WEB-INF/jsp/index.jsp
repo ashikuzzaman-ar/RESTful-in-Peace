@@ -21,6 +21,28 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>User Logout Testing</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/logout" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <select name="userType">
+                        <option>PATIENT</option>
+                        <option>DOCTOR</option>
+                    </select><br/>
+                    <input type="submit" value="Log Out" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
+                <h2>Admin Logout Testing</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/logout" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="submit" value="Log Out" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>User Login Testing</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/login" method="POST">
                     <input type="text" name="username" placeholder="Username" /> <br/>
