@@ -2,7 +2,7 @@ package com.studevs.dummy.restful.in.peace.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.studevs.dummy.restful.in.peace.models.enums.Gender;
-import java.io.Serializable;
+import com.studevs.dummy.restful.in.peace.utility.interfaces.Replicable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -35,13 +35,14 @@ import org.hibernate.annotations.LazyCollectionOption;
     ,
     @Index(columnList = "email", name = "doctors_email")
 })
-public class Doctor implements Serializable {
+public class Doctor implements Replicable<Doctor> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * ID and primary key
      */
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -345,5 +346,25 @@ public class Doctor implements Serializable {
     @Override
     public String toString() {
         return "Doctor{" + "id=" + id + ", username=" + username + ", token=" + token + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + ", visitings=" + visitings + '}';
+    }
+
+    @Override
+    public void replicate(Doctor type) {
+
+        this.address = type.address;
+        this.birthDate = type.birthDate;
+        this.city = type.city;
+        this.country = type.country;
+        this.email = type.email;
+        this.firstName = type.firstName;
+        this.gender = type.gender;
+        this.id = type.id;
+        this.lastName = type.lastName;
+        this.password = type.password;
+        this.phone = type.phone;
+        this.state = type.state;
+        this.token = type.token;
+        this.username = type.username;
+        this.visitings = type.visitings;
     }
 }
