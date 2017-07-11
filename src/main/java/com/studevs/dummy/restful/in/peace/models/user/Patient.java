@@ -51,6 +51,7 @@ public class Patient implements Replicable<Patient> {
     /**
      * Username of a patient for login to this portal. This field is not nullable.
      */
+    @JsonIgnore
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
