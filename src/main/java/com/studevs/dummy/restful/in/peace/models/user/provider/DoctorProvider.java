@@ -6,6 +6,7 @@ import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvi
 import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -14,6 +15,48 @@ import org.hibernate.Transaction;
 public class DoctorProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * This method will fetch unique doctor from database using username. If no data found then null this method will return null.
+     *
+     * @param username
+     * @param beanProvider
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public Doctor getDoctorByUsername(String username, BeanProvider beanProvider) {
+
+        Doctor doctor = null;
+
+        /**
+         * beanProvider can't be null for provind beans and logger. username can't be null or empty string.
+         */
+        if (beanProvider != null && username != null && !username.isEmpty()) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+            Query<Doctor> query;
+
+            try {
+
+                transaction = session.beginTransaction();
+                query = session.createQuery("FROM Doctor D WHERE D.username = :id_1");
+                query.setParameter("id_1", username);
+                doctor = query.uniqueResult();
+                transaction.commit();
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, username, null);
+            }
+        }
+
+        return doctor;
+    }
 
     /**
      * This method will check that all fields of Doctor model have right property setup. That means Doctor's model not null property should not be null. This method will check that all. If any field found null which should not be null then this method will return false. Otherwise this method will return true.
