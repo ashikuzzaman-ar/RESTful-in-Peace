@@ -42,7 +42,6 @@ public class Patient implements Replicable<Patient> {
     /**
      * ID and primary key
      */
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -126,6 +125,7 @@ public class Patient implements Replicable<Patient> {
     /**
      * Date of birth of a patient.
      */
+    @JsonIgnore
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private Date birthDate;
@@ -261,6 +261,10 @@ public class Patient implements Replicable<Patient> {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getDateOfBirth() {
+        return birthDate.toString();
     }
 
     public Set<Visiting> getVisitings() {

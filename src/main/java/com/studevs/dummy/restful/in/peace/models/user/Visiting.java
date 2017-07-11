@@ -38,7 +38,6 @@ public class Visiting implements Serializable {
     /**
      * ID and primary key
      */
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -77,6 +76,7 @@ public class Visiting implements Serializable {
     /**
      * Visiting date and time.
      */
+    @JsonIgnore
     @Column(name = "visiting_date_time")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date visitingDate;
@@ -148,6 +148,10 @@ public class Visiting implements Serializable {
 
     public Date getVisitingDate() {
         return visitingDate;
+    }
+
+    public String getDateofVisiting() {
+        return visitingDate.toString();
     }
 
     public void setVisitingDate(Date visitingDate) {
