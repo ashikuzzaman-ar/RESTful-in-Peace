@@ -21,6 +21,33 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Update Patient</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/patient/update" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="username" placeholder="Username" /> <br/>
+                    <input type="password" name="password" placeholder="Password" /> <br/>
+                    <input type="text" name="email" placeholder="Email" /> <br/>
+                    <input type="text" name="firstName" placeholder="First Name" /> <br/>
+                    <input type="text" name="lastName" placeholder="Last Name" /> <br/>
+                    <input type="text" name="phone" placeholder="Phone" /> <br/>
+                    <input type="text" name="address" placeholder="Address" /> <br/>
+                    <input type="text" name="city" placeholder="City" /> <br/>
+                    <input type="text" name="state" placeholder="State" /> <br/>
+                    <input type="text" name="country" placeholder="Country" /> <br/>
+                    <select name="gender">
+                        <option>MALE</option>
+                        <option>FEMALE</option>
+                        <option>TRANSGENDER</option>
+                        <option>SHEMALE</option>
+                        <option>OTHER</option>
+                    </select><br/>
+                    <input type="date" name="birthDate" placeholder="Birth Date" /> <br/>
+                    <input type="submit" value="Update Doctor" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Update Doctor</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/doctor/update" method="POST">
                     <input type="text" name="token" placeholder="Token" /> <br/>
