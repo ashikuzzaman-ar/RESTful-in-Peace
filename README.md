@@ -9,10 +9,26 @@ There is a live demo on this link : http://restfulinpeace-studevs.rhcloud.com/ .
 
 # Active links: 
 http://restfulinpeace-studevs.rhcloud.com/services/api/admin/patient
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/admin/doctor
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/admin/login
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/user/login
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/admin/logout
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/user/logout
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/user/doctor/update
+
+
 http://restfulinpeace-studevs.rhcloud.com/services/api/user/patient/update
+
+
