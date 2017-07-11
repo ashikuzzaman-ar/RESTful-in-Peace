@@ -1,14 +1,11 @@
 package com.studevs.dummy.restful.in.peace.controllers.rest_controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studevs.dummy.restful.in.peace.models.enums.AdminPrivilege;
 import com.studevs.dummy.restful.in.peace.models.user.Admin;
 import com.studevs.dummy.restful.in.peace.models.user.Doctor;
 import com.studevs.dummy.restful.in.peace.models.user.provider.DoctorProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,27 +24,6 @@ public class CreateDoctorController extends BeanProvider {
 
     private static final long serialVersionUID = 1L;
 
-    private ObjectMapper mapper;
-    private List<String> message;
-    private Map<String, List<String>> messages;
-    private String json;
-
-    /**
-     * This method will initialize some necessary fields before starting other works.
-     *
-     * @param request
-     */
-    private void initializer(HttpServletRequest request) {
-
-        this.createContext(request);
-        this.mapper = this.getBean("mapper");
-        this.message = this.getBean("message");
-        this.message.clear();
-        this.messages = this.getBean("messages");
-        this.messages.put("messages", this.message);
-        this.json = "";
-    }
-
     /**
      * This is a method for catching POST requests. This method will be used for inserting Doctor model instance into database. request parameter will be used for creating application context and refreshing context. token will be used for authentication, only valid admins can insert data into database. doctor instance will be used for persisting into database.
      *
@@ -65,6 +41,8 @@ public class CreateDoctorController extends BeanProvider {
 
         this.initializer(request);
 
+        String json = "";
+
         try {
 
             /**
@@ -72,7 +50,7 @@ public class CreateDoctorController extends BeanProvider {
              */
             if (bindingResult.hasErrors()) {
 
-                this.message.add("Binding error!");
+                this.getMessage().add("Binding error!");
             } else {
 
                 /**
@@ -80,7 +58,7 @@ public class CreateDoctorController extends BeanProvider {
                  */
                 if (token.isEmpty()) {
 
-                    this.message.add("Empty token!");
+                    this.getMessage().add("Empty token!");
                 } else {
 
                     Admin admin = this.getBean("admin");
@@ -95,23 +73,23 @@ public class CreateDoctorController extends BeanProvider {
                         if (admin.getAdminPrivilege() == AdminPrivilege.ALL || admin.getAdminPrivilege() == AdminPrivilege.CREATE) {
 
                             DoctorProvider doctorProvider = this.getBean("doctorProvider");
-                            this.message.add("Insertion : " + doctorProvider.insertNewDoctor(doctor, this));
+                            this.getMessage().add("Insertion : " + doctorProvider.insertNewDoctor(doctor, this));
                         } else {
 
-                            this.message.add("Access limited!");
+                            this.getMessage().add("Access limited!");
                         }
                     } else {
 
-                        this.message.add("Invalid token!");
+                        this.getMessage().add("Invalid token!");
                     }
                 }
             }
-            this.json = this.mapper.writeValueAsString(this.messages);
+            json = this.getMapper().writeValueAsString(this.getMessages());
         } catch (JsonProcessingException e) {
 
             this.logger(e, null, null);
         }
 
-        return this.json;
+        return json;
     }
 }

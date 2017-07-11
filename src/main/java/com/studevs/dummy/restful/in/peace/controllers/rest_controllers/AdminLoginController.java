@@ -1,13 +1,10 @@
 package com.studevs.dummy.restful.in.peace.controllers.rest_controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studevs.dummy.restful.in.peace.models.user.Admin;
 import com.studevs.dummy.restful.in.peace.models.user.provider.AdminProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.Encrypt;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,26 +22,6 @@ public class AdminLoginController extends BeanProvider {
 
     private static final long serialVersionUID = 1L;
     private Admin admin;
-    private ObjectMapper mapper;
-    private List<String> message;
-    private Map<String, List<String>> messages;
-    private String json;
-
-    /**
-     * This method will initialize some necessary fields before starting other works.
-     *
-     * @param request
-     */
-    private void initializer(HttpServletRequest request) {
-
-        this.createContext(request);
-        this.mapper = this.getBean("mapper");
-        this.message = this.getBean("message");
-        this.message.clear();
-        this.messages = this.getBean("messages");
-        this.messages.put("messages", this.message);
-        this.json = "";
-    }
 
     /**
      * login is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to login.
@@ -57,13 +34,15 @@ public class AdminLoginController extends BeanProvider {
 
         this.initializer(request);
 
+        String json = "";
+
         try {
 
-            this.message.add("Request method is not supported!");
-            this.json = this.mapper.writeValueAsString(this.messages);
+            this.getMessage().add("Request method is not supported!");
+            json = this.getMapper().writeValueAsString(this.getMessages());
         } catch (JsonProcessingException e) {
 
-            this.logger(e, this.messages, null);
+            this.logger(e, this.getMessages(), null);
         }
 
         return json;
@@ -83,6 +62,8 @@ public class AdminLoginController extends BeanProvider {
             BindingResult bindingResult) {
 
         this.initializer(request);
+
+        String json = "";
 
         try {
 
@@ -107,8 +88,8 @@ public class AdminLoginController extends BeanProvider {
                          */
                         if (adminFromDB == null) {
 
-                            this.message.add("User doesn't exist!");
-                            this.json = this.mapper.writeValueAsString(this.messages);
+                            this.getMessage().add("User doesn't exist!");
+                            json = this.getMapper().writeValueAsString(this.getMessages());
                         } else if (encrypt.generateHash(adminModel.getPassword(), adminFromDB.getId()).equals(adminFromDB.getPassword())) {
 
                             /**
@@ -117,11 +98,11 @@ public class AdminLoginController extends BeanProvider {
                             adminFromDB.setToken(encrypt.generateHash((adminFromDB.getUsername() + this.getBean("date") + adminFromDB.getPassword() + adminFromDB.getAdminPrivilege()), adminFromDB.getId()));
                             this.admin = this.getBean("admin");
                             this.admin.replicate(adminFromDB);
-                            this.json = this.mapper.writeValueAsString(this.admin);
+                            json = this.getMapper().writeValueAsString(this.admin);
                         } else {
 
-                            this.message.add("Password is incorrect!");
-                            this.json = this.mapper.writeValueAsString(this.messages);
+                            this.getMessage().add("Password is incorrect!");
+                            json = this.getMapper().writeValueAsString(this.getMessages());
                         }
                     } catch (JsonProcessingException e) {
 
@@ -129,13 +110,13 @@ public class AdminLoginController extends BeanProvider {
                     }
                 } else {
 
-                    this.message.add("Username and/or password is empty!");
-                    this.json = this.mapper.writeValueAsString(this.messages);
+                    this.getMessage().add("Username and/or password is empty!");
+                    json = this.getMapper().writeValueAsString(this.getMessages());
                 }
             } else {
 
-                this.message.add("Data binding error!");
-                this.json = this.mapper.writeValueAsString(this.messages);
+                this.getMessage().add("Data binding error!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
             }
         } catch (JsonProcessingException e) {
 
