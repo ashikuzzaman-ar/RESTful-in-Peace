@@ -68,6 +68,11 @@ public class AdminLoginController extends BeanProvider {
         try {
 
             /**
+             * First of all, every new attempt must remove it's previous admin session.
+             */
+            request.getSession().setAttribute("admin", null);
+
+            /**
              * If any binding error occurred then further attempt will not be taken.
              */
             if (!bindingResult.hasErrors()) {
