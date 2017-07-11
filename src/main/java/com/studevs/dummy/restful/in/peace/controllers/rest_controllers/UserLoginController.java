@@ -58,7 +58,7 @@ public class UserLoginController extends BeanProvider {
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    protected String postPatientLogin(HttpServletRequest request,
+    protected String postUserLogin(HttpServletRequest request,
             @RequestParam(value = "userType", required = true, defaultValue = "") String userType,
             @RequestParam(value = "username", required = true, defaultValue = "") String username,
             @RequestParam(value = "password", required = true, defaultValue = "") String password) {
@@ -110,8 +110,8 @@ public class UserLoginController extends BeanProvider {
                             this.getMessage().add("Password is incorrect!");
                             json = this.getMapper().writeValueAsString(this.getMessages());
                         }
+                        break;
                     }
-                    break;
                     case "DOCTOR": {
 
                         DoctorProvider doctorProvider = this.getBean("doctorProvider");
@@ -138,18 +138,84 @@ public class UserLoginController extends BeanProvider {
                             this.getMessage().add("Password is incorrect!");
                             json = this.getMapper().writeValueAsString(this.getMessages());
                         }
+                        break;
                     }
-                    break;
                     default: {
 
                         this.getMessage().add("Unspecified user type!");
                         json = this.getMapper().writeValueAsString(this.getMessages());
+                        break;
                     }
-                    break;
                 }
             } else {
 
                 this.getMessage().add("Username and/or password is empty!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            }
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, null, null);
+        }
+
+        return json;
+    }
+
+    /**
+     * This is a method for logging out of an user account. This method will take token as security reason. If the token is valid then and only then the current user session will be dismissed.
+     *
+     * @param request
+     * @param userType
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    protected String postUserLogout(HttpServletRequest request,
+            @RequestParam(value = "userType", required = true, defaultValue = "") String userType,
+            @RequestParam(value = "token", required = true, defaultValue = "") String token) {
+
+        this.initializer(request);
+
+        String json = "";
+
+        try {
+
+            String authenticationToken;
+
+            switch (userType) {
+
+                /**
+                 * Getting authentication token from user's model.
+                 */
+                case "PATIENT": {
+
+                    authenticationToken = ((Patient) this.getBean("patient")).getToken();
+                    break;
+                }
+                case "DOCTOR": {
+
+                    authenticationToken = ((Doctor) this.getBean("doctor")).getToken();
+                    break;
+                }
+                default: {
+
+                    authenticationToken = null;
+                    break;
+                }
+            }
+
+            if (token.isEmpty()) { //If the token is enpty then no action will be taken.
+
+                this.getMessage().add("Empty token!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            } else if (token.equals(authenticationToken)) { //If token is authenticated then both admin and patient will be destroyed thou only one should present.
+
+                request.getSession().setAttribute("patient", null);
+                request.getSession().setAttribute("doctor", null);
+                this.getMessage().add("Logout successful!");
+                json = this.getMapper().writeValueAsString(this.getMessages());
+            } else { //If token is not empty and it does not match to session token then the token must be incorrect.
+
+                this.getMessage().add("Invalid token!");
                 json = this.getMapper().writeValueAsString(this.getMessages());
             }
         } catch (JsonProcessingException e) {
