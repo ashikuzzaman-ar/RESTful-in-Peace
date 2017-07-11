@@ -161,6 +161,31 @@ public class UserLoginController extends BeanProvider {
     }
 
     /**
+     * logout is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to logout.
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "logout")
+    protected String allUserLogout(HttpServletRequest request) {
+
+        this.initializer(request);
+
+        String json = "";
+
+        try {
+
+            this.getMessage().add("Request method is not supported!");
+            json = this.getMapper().writeValueAsString(this.getMessages());
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, this.getMessages(), null);
+        }
+
+        return json;
+    }
+
+    /**
      * This is a method for logging out of an user account. This method will take token as security reason. If the token is valid then and only then the current user session will be dismissed.
      *
      * @param request
