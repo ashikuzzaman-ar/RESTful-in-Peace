@@ -24,6 +24,31 @@ public class UserLoginController extends BeanProvider {
     private static final long serialVersionUID = 1L;
 
     /**
+     * login is a secured service so only POST method can perform to get token from this service, other all method will be restricted by this request handler to prevent user's to login.
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "login")
+    protected String allUserLogin(HttpServletRequest request) {
+
+        this.initializer(request);
+
+        String json = "";
+
+        try {
+
+            this.getMessage().add("Request method is not supported!");
+            json = this.getMapper().writeValueAsString(this.getMessages());
+        } catch (JsonProcessingException e) {
+
+            this.logger(e, this.getMessages(), null);
+        }
+
+        return json;
+    }
+
+    /**
      * This is a method for accepting POST request from client side. This method will generate token for patient or doctor if username and password matches. userType must be defined properly.
      *
      * @param request
