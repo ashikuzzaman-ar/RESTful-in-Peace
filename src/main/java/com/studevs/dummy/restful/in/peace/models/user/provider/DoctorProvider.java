@@ -17,6 +17,37 @@ public class DoctorProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public boolean updateDoctor(final Doctor doctor, final BeanProvider beanProvider) {
+
+        boolean isUpdated = false;
+
+        if (beanProvider != null && doctor != null && this.hasNoError(doctor) && doctor.getId() != null) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                session.update(doctor);
+                Encrypt encrypt = beanProvider.getBean("encrypt");
+                doctor.setPassword(encrypt.generateHash(doctor.getPassword(), doctor.getId()));
+                transaction.commit();
+                isUpdated = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, doctor, doctor.getId());
+            }
+        }
+
+        return isUpdated;
+    }
+
     /**
      * This method will fetch unique doctor from database using username. If no data found then null this method will return null.
      *
@@ -25,7 +56,7 @@ public class DoctorProvider implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Doctor getDoctorByUsername(String username, BeanProvider beanProvider) {
+    public Doctor getDoctorByUsername(final String username, final BeanProvider beanProvider) {
 
         Doctor doctor = null;
 
