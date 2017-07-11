@@ -17,7 +17,15 @@ public class DoctorProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public boolean updateDoctor(final Doctor doctor, final BeanProvider beanProvider) {
+    /**
+     * This method will update any existing user from database.
+     *
+     * @param doctor
+     * @param beanProvider
+     * @param passwordTrigger
+     * @return
+     */
+    public boolean updateDoctor(final Doctor doctor, final BeanProvider beanProvider, final boolean passwordTrigger) {
 
         boolean isUpdated = false;
 
@@ -30,8 +38,15 @@ public class DoctorProvider implements Serializable {
 
                 transaction = session.beginTransaction();
                 session.update(doctor);
-                Encrypt encrypt = beanProvider.getBean("encrypt");
-                doctor.setPassword(encrypt.generateHash(doctor.getPassword(), doctor.getId()));
+
+                /**
+                 * If the password trigger is true, it means that password has to be encrypt because it has been updated.
+                 */
+                if (!passwordTrigger) {
+
+                    Encrypt encrypt = beanProvider.getBean("encrypt");
+                    doctor.setPassword(encrypt.generateHash(doctor.getPassword(), doctor.getId()));
+                }
                 transaction.commit();
                 isUpdated = true;
             } catch (Exception e) {
