@@ -96,6 +96,8 @@ public class Visiting implements Serializable {
     private Patient patient;
 
     public Visiting() {
+
+        this.visitingDate = new Date();
     }
 
     public Long getId() {

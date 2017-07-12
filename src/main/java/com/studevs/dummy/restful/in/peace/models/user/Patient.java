@@ -138,6 +138,8 @@ public class Patient implements Replicable<Patient> {
     private Set<Visiting> visitings;
 
     public Patient() {
+
+        this.birthDate = new Date();
     }
 
     public Long getId() {
