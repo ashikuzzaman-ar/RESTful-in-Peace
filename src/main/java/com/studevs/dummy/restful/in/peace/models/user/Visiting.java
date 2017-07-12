@@ -1,7 +1,7 @@
 package com.studevs.dummy.restful.in.peace.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
+import com.studevs.dummy.restful.in.peace.utility.interfaces.Replicable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -31,7 +31,7 @@ import org.hibernate.annotations.LazyCollectionOption;
     ,
     @Index(columnList = "doctor_suggestion", name = "doctor_patient_visiting_doctor_suggestion")
 })
-public class Visiting implements Serializable {
+public class Visiting implements Replicable<Visiting> {
 
     private static final long serialVersionUID = 1L;
 
@@ -233,5 +233,15 @@ public class Visiting implements Serializable {
     @Override
     public String toString() {
         return "Visiting{" + "id=" + id + ", doctorFee=" + doctorFee + ", symptoms=" + symptoms + ", prediction=" + prediction + ", suggestions=" + suggestions + ", isEffective=" + isEffective + ", visitingDate=" + visitingDate + '}';
+    }
+
+    @Override
+    public void replicate(final Visiting type) {
+
+        this.isEffective = type.isEffective;
+        this.prediction = type.prediction;
+        this.suggestions = type.suggestions;
+        this.symptoms = type.symptoms;
+        this.visitingDate = type.visitingDate;
     }
 }
