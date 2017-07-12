@@ -21,6 +21,22 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Get Patients</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/patient/get" method="GET">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <select name="userType">
+                        <option>PATIENT</option>
+                        <option>DOCTOR</option>
+                        <option>ADMIN</option>
+                    </select><br/>
+                    <input type="text" name="from" placeholder="From" /> <br/>
+                    <input type="text" name="to" placeholder="To" /> <br/>
+                    <input type="submit" value="Get Patients" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Get Doctors</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/doctor/get" method="GET">
                     <input type="text" name="token" placeholder="Token" /> <br/>
