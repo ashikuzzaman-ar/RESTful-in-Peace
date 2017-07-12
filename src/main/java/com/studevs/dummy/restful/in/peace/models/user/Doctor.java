@@ -294,7 +294,6 @@ public class Doctor implements Replicable<Doctor> {
         hash = 53 * hash + Objects.hashCode(this.country);
         hash = 53 * hash + Objects.hashCode(this.gender);
         hash = 53 * hash + Objects.hashCode(this.birthDate);
-        hash = 53 * hash + Objects.hashCode(this.visitings);
         return hash;
     }
 
@@ -357,7 +356,7 @@ public class Doctor implements Replicable<Doctor> {
 
     @Override
     public String toString() {
-        return "Doctor{" + "id=" + id + ", username=" + username + ", token=" + token + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + ", visitings=" + visitings + '}';
+        return "Doctor{" + "id=" + id + ", username=" + username + ", token=" + token + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", gender=" + gender + ", birthDate=" + birthDate + '}';
     }
 
     @Override

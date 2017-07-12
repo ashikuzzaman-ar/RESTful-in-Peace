@@ -186,8 +186,6 @@ public class Visiting implements Serializable {
         hash = 83 * hash + Objects.hashCode(this.suggestions);
         hash = 83 * hash + Objects.hashCode(this.isEffective);
         hash = 83 * hash + Objects.hashCode(this.visitingDate);
-        hash = 83 * hash + Objects.hashCode(this.doctor);
-        hash = 83 * hash + Objects.hashCode(this.patient);
         return hash;
     }
 
@@ -232,6 +230,6 @@ public class Visiting implements Serializable {
 
     @Override
     public String toString() {
-        return "Visiting{" + "id=" + id + ", doctorFee=" + doctorFee + ", symptoms=" + symptoms + ", prediction=" + prediction + ", suggestions=" + suggestions + ", isEffective=" + isEffective + ", visitingDate=" + visitingDate + ", doctor=" + doctor + ", patient=" + patient + '}';
+        return "Visiting{" + "id=" + id + ", doctorFee=" + doctorFee + ", symptoms=" + symptoms + ", prediction=" + prediction + ", suggestions=" + suggestions + ", isEffective=" + isEffective + ", visitingDate=" + visitingDate + '}';
     }
 }
