@@ -45,22 +45,27 @@
     <bean id="date" class="java.util.Date" scope="prototype">
     </bean>
 
+    <bean id="visitings" class="java.util.LinkedHashSet" scope="session">
+    </bean>
+
     <!-- Model Beans -->
     <bean id="admin" class="com.studevs.dummy.restful.in.peace.models.user.Admin" scope="session">
     </bean>
 
     <bean id="doctor" class="com.studevs.dummy.restful.in.peace.models.user.Doctor" scope="session">
+        <property name="visitings" ref="visitings"></property>
     </bean>
 
     <bean id="patient" class="com.studevs.dummy.restful.in.peace.models.user.Patient" scope="session">
+        <property name="visitings" ref="visitings"></property>
     </bean>
 
     <bean id="visiting" class="com.studevs.dummy.restful.in.peace.models.user.Visiting" scope="request">
+        <property name="visitingDate" ref="date"></property>
     </bean>
 
     <bean id="log" class="com.studevs.dummy.restful.in.peace.models.system.Log" scope="prototype">
-        <property name="date" ref="date">
-        </property>
+        <property name="date" ref="date"></property>
     </bean>
 
     <!--Service Providers for Models-->
@@ -71,5 +76,8 @@
     </bean>
 
     <bean id="adminProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.AdminProvider" scope="request">
+    </bean>
+
+    <bean id="visitingProvider" class="com.studevs.dummy.restful.in.peace.models.user.provider.VisitingProvider" scope="request">
     </bean>
 </beans>
