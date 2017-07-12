@@ -21,6 +21,17 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Get Admins</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/get" method="GET">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="from" placeholder="From" /> <br/>
+                    <input type="text" name="to" placeholder="To" /> <br/>
+                    <input type="submit" value="Get Admins" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Delete Admin</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/delete" method="POST">
                     <input type="text" name="token" placeholder="Token" /> <br/>
