@@ -5,6 +5,7 @@ import com.studevs.dummy.restful.in.peace.utility.service.Encrypt;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider;
 import java.io.Serializable;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -16,6 +17,53 @@ import org.hibernate.query.Query;
 public class PatientProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * This method will fetch patients from database and return as a list.
+     *
+     * @param from
+     * @param to
+     * @param beanProvider
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public List<Patient> getPatients(final Long from, final Long to, final BeanProvider beanProvider) {
+
+        List<Patient> patients = null;
+
+        if (beanProvider != null && from > 0L && to > 0L) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+            Query<Patient> query;
+
+            try {
+
+                transaction = session.beginTransaction();
+                if (from <= to) {
+
+                    query = session.createQuery("FROM Patient P WHERE (P.id >= :id_1 AND P.id <= :id_2)");
+                    query.setParameter("id_1", from);
+                    query.setParameter("id_2", to);
+                } else {
+
+                    query = session.createQuery("FROM Patient P");
+                }
+                patients = query.list();
+                transaction.commit();
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, null, null);
+            }
+        }
+
+        return patients;
+    }
 
     /**
      * This method will delete an existing patient from database.
