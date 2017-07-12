@@ -17,6 +17,50 @@ public class VisitingProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * This method will provide visiting entity by visiting id.
+     *
+     * @param id
+     * @param beanProvider
+     * @return
+     */
+    public Visiting getVisitingById(final Long id, final BeanProvider beanProvider) {
+
+        Visiting visiting = null;
+
+        if (beanProvider != null && id != null && id > 0L) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                visiting = session.get(Visiting.class, id);
+                transaction.commit();
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, null, id);
+            }
+        }
+
+        return visiting;
+    }
+
+    /**
+     * This method will insert new visiting associated with provided patient and doctor id.
+     *
+     * @param visiting
+     * @param patientId
+     * @param doctorId
+     * @param beanProvider
+     * @return
+     */
     public boolean insertNewVisiting(final Visiting visiting, final Long patientId, final Long doctorId, final BeanProvider beanProvider) {
 
         boolean isInserted = false;
