@@ -21,6 +21,25 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Delete Admin</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/delete" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="id" placeholder="id" /> <br/>
+                    <input type="text" name="username" placeholder="Username" /> <br/>
+                    <input type="password" name="password" placeholder="Password" /> <br/>
+                    <select name="adminPrivilege">
+                        <option>ALL</option>
+                        <option>CREATE</option>
+                        <option>READ</option>
+                        <option>UPDATE</option>
+                        <option>DELETE</option>
+                    </select><br/>
+                    <input type="submit" value="Delete Admin" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Update Admin</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/admin/update" method="POST">
                     <input type="text" name="token" placeholder="Token" /> <br/>
