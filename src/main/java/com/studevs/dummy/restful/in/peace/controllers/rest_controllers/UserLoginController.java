@@ -105,6 +105,7 @@ public class UserLoginController extends BeanProvider {
                             Patient patient = this.getBean("patient");
                             patient.replicate(patientFromDB);
                             json = this.getMapper().writeValueAsString(patient);
+                            patient.setVisitings(null);//setting visitings null for consuming less session memory.
                         } else {
 
                             this.getMessage().add("Password is incorrect!");
@@ -133,6 +134,7 @@ public class UserLoginController extends BeanProvider {
                             Doctor doctor = this.getBean("doctor");
                             doctor.replicate(doctorFromDB);
                             json = this.getMapper().writeValueAsString(doctor);
+                            doctor.setVisitings(null);//setting visitings null for consuming less session memory.
                         } else {
 
                             this.getMessage().add("Password is incorrect!");

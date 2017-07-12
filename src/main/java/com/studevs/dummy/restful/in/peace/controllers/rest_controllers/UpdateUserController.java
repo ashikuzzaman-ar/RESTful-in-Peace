@@ -69,6 +69,7 @@ public class UpdateUserController extends BeanProvider {
                         patient.replicate(patientFromModel);
                         this.getMessage().add("Update successful!");
                         json = this.getMapper().writeValueAsString(new Object[]{this.getMessages(), patient});
+                        patient.setVisitings(null);//setting visitings null for consuming less session memory.
                     } else {
 
                         this.getMessage().add("Update failed!");
@@ -134,6 +135,7 @@ public class UpdateUserController extends BeanProvider {
                         doctor.replicate(doctorFromModel);
                         this.getMessage().add("Update successful!");
                         json = this.getMapper().writeValueAsString(new Object[]{this.getMessages(), doctor});
+                        doctor.setVisitings(null);//setting visitings null for consuming less session memory.
                     } else {
 
                         this.getMessage().add("Update failed!");
