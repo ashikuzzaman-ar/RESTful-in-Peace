@@ -18,6 +18,48 @@ public class VisitingProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * This method will update an existing visiting entity from database.
+     *
+     * @param visiting
+     * @param beanProvider
+     * @return
+     */
+    public boolean updateVisiting(final Visiting visiting, final BeanProvider beanProvider) {
+
+        boolean isUpdated = false;
+
+        if (beanProvider != null && visiting != null && visiting.getId() != null && visiting.getId() > 0L) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                Visiting visitingFromDB = session.get(Visiting.class, visiting.getId());
+
+                if (visitingFromDB != null) {
+
+                    visitingFromDB.replicate(visiting);
+                }
+
+                transaction.commit();
+                isUpdated = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, visiting, visiting.getId());
+            }
+        }
+
+        return isUpdated;
+    }
+
+    /**
      * This method will provide visiting entity by visiting id.
      *
      * @param id
