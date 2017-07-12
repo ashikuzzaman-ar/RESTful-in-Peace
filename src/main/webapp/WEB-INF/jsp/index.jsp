@@ -21,6 +21,30 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Update Visiting By Doctor</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/visiting/update/doctor" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="id" placeholder="Visiting ID" /> <br/>
+                    <input type="text" name="symptoms" placeholder="Symptoms" /> <br/>
+                    <input type="text" name="prediction" placeholder="Prediction" /> <br/>
+                    <input type="text" name="suggestions" placeholder="Suggestions" /> <br/>
+                    <input type="submit" value="Update Visiting" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
+                <h2>Update Visiting By Patient</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/visiting/update/patient" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="id" placeholder="Visiting ID" /> <br/>
+                    <span>This was effective </span><input type="checkbox" name="isEffective" value="true" /><br/>
+                    <input type="submit" value="Update Visiting" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Create Visiting</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/visiting/create" method="POST">
                     <input type="text" name="token" placeholder="Token" /> <br/>
