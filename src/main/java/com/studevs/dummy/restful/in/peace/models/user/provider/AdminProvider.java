@@ -1,6 +1,7 @@
 package com.studevs.dummy.restful.in.peace.models.user.provider;
 
 import com.studevs.dummy.restful.in.peace.models.user.Admin;
+import com.studevs.dummy.restful.in.peace.utility.service.Encrypt;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.BeanProvider;
 import com.studevs.dummy.restful.in.peace.utility.service.providers.SessionProvider;
 import java.io.Serializable;
@@ -15,6 +16,45 @@ import org.hibernate.query.Query;
 public class AdminProvider implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * This method will insert new admin to database.
+     *
+     * @param admin
+     * @param beanProvider
+     * @return
+     */
+    public boolean insertNewAdmin(final Admin admin, final BeanProvider beanProvider) {
+
+        boolean isInserted = false;
+
+        if (beanProvider != null && admin != null && this.hasNoError(admin)) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                session.persist(admin);
+                /**
+                 * Encrypting password.
+                 */
+                Encrypt encrypt = beanProvider.getBean("encrypt");
+                admin.setPassword(encrypt.generateHash(admin.getPassword(), admin.getId()));
+                transaction.commit();
+                isInserted = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+                beanProvider.logger(e, admin, admin.getId());
+            }
+        }
+        return isInserted;
+    }
 
     /**
      * This method will return Admin object which will be persisted from database by using username. beanProrovider will be used for providing beans and logger. username will be used for querying admin instance from database. If any data found with this username then this method will return that admin object otherwise this method will return null.
@@ -55,5 +95,24 @@ public class AdminProvider implements Serializable {
         }
 
         return admin;
+    }
+
+    /**
+     * This method will check an admin if it has any error to persist or not.
+     *
+     * @param admin
+     * @return
+     */
+    private boolean hasNoError(final Admin admin) {
+
+        if (admin.getAdminPrivilege() == null) {
+            return false;
+        }
+
+        if (admin.getPassword() == null || admin.getPassword().isEmpty()) {
+            return false;
+        }
+
+        return !(admin.getUsername() == null || admin.getUsername().isEmpty());
     }
 }
