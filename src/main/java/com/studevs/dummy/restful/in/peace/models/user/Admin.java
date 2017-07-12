@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -38,6 +39,7 @@ public class Admin implements Replicable<Admin> {
     @Column(name = "password", nullable = false)
     private byte[] password;
 
+    @Transient
     @Column(name = "token")
     private String token;
 
