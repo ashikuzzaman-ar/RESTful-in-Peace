@@ -18,6 +18,41 @@ public class AdminProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * This method will delete an existing admin from database.
+     *
+     * @param admin
+     * @param beanProvider
+     * @return
+     */
+    public boolean deleteAdmin(final Admin admin, final BeanProvider beanProvider) {
+
+        boolean isDeleted = false;
+
+        if (beanProvider != null && admin != null && admin.getId() != null) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+            try {
+
+                transaction = session.beginTransaction();
+                session.delete(admin);
+                transaction.commit();
+                isDeleted = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, admin, admin.getId());
+            }
+        }
+
+        return isDeleted;
+    }
+
+    /**
      * This method will update an existing admin to database.
      *
      * @param admin
