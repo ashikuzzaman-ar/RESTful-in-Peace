@@ -84,6 +84,7 @@ public class Visiting implements Serializable {
     /**
      * m-1 relationship between visiting history and doctor.
      */
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Doctor doctor;
@@ -91,6 +92,7 @@ public class Visiting implements Serializable {
     /**
      * m-1 relationship between visiting history and patient.
      */
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Patient patient;
