@@ -266,7 +266,7 @@ public class Patient implements Replicable<Patient> {
     }
 
     public String getDateOfBirth() {
-        return birthDate.toString();
+        return birthDate == null ? "" : birthDate.toString();
     }
 
     public Set<Visiting> getVisitings() {

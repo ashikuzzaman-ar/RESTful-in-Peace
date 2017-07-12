@@ -155,7 +155,7 @@ public class Visiting implements Replicable<Visiting> {
     }
 
     public String getDateofVisiting() {
-        return visitingDate.toString();
+        return visitingDate == null ? "" : visitingDate.toString();
     }
 
     public void setVisitingDate(Date visitingDate) {

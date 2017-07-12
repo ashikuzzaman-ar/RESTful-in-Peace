@@ -262,7 +262,7 @@ public class Doctor implements Replicable<Doctor> {
     }
 
     public String getDateOfBirth() {
-        return birthDate.toString();
+        return birthDate == null ? "" : birthDate.toString();
     }
 
     public void setBirthDate(Date birthDate) {
