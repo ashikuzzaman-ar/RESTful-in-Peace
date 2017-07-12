@@ -21,6 +21,18 @@ License URL:
             <hr/>
             <h1>Testing</h1>
             <div>
+                <h2>Create Visiting</h2>
+                <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/visiting/create" method="POST">
+                    <input type="text" name="token" placeholder="Token" /> <br/>
+                    <input type="text" name="doctorId" placeholder="Doctor ID" /> <br/>
+                    <input type="text" name="doctorFee" placeholder="Doctor Fee" /> <br/>
+                    <input type="date" name="visitingDate" placeholder="Visiting Date" /> <br/>
+                    <input type="submit" value="Create Visiting" />
+                </form>
+            </div>
+            <br/>
+            <hr/>
+            <div>
                 <h2>Delete Doctor</h2>
                 <form action="http://localhost:<%= request.getLocalPort()%>/Rest_in_Peace/services/api/user/doctor/delete" method="POST">
                     <input type="text" name="token" placeholder="Token" /> <br/>
