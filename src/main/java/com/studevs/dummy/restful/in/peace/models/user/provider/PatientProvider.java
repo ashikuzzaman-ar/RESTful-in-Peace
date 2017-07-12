@@ -18,6 +18,42 @@ public class PatientProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * This method will delete an existing patient from database.
+     *
+     * @param patient
+     * @param beanProvider
+     * @return
+     */
+    public boolean deletePatient(final Patient patient, final BeanProvider beanProvider) {
+
+        boolean isDeleted = false;
+
+        if (beanProvider != null && patient != null && patient.getId() != null && patient.getId() > 0L) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                session.delete(patient);
+                transaction.commit();
+                isDeleted = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+
+                beanProvider.logger(e, patient, patient.getId());
+            }
+        }
+
+        return isDeleted;
+    }
+
+    /**
      * This method will update any existing user from database.
      *
      * @param patient
