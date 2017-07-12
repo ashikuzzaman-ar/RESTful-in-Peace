@@ -18,6 +18,50 @@ public class AdminProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * This method will update an existing admin to database.
+     *
+     * @param admin
+     * @param beanProvider
+     * @param passwordTrigger
+     * @return
+     */
+    public boolean updateAdmin(final Admin admin, final BeanProvider beanProvider, final boolean passwordTrigger) {
+
+        boolean isUpdated = false;
+
+        if (beanProvider != null && admin != null && this.hasNoError(admin)) {
+
+            Session session = ((SessionProvider) beanProvider.getBean("session")).getSession();
+            Transaction transaction = null;
+
+            try {
+
+                transaction = session.beginTransaction();
+                session.update(admin);
+
+                if (!passwordTrigger) {
+
+                    /**
+                     * Encrypting password.
+                     */
+                    Encrypt encrypt = beanProvider.getBean("encrypt");
+                    admin.setPassword(encrypt.generateHash(admin.getPassword(), admin.getId()));
+                }
+                transaction.commit();
+                isUpdated = true;
+            } catch (Exception e) {
+
+                if (transaction != null) {
+
+                    transaction.rollback();
+                }
+                beanProvider.logger(e, admin, admin.getId());
+            }
+        }
+        return isUpdated;
+    }
+
+    /**
      * This method will insert new admin to database.
      *
      * @param admin
