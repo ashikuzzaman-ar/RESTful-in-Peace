@@ -22,6 +22,16 @@ public class DoctorController extends BeanProvider {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * This method will provide doctors according to the parameters.
+     *
+     * @param request
+     * @param token
+     * @param userType
+     * @param from
+     * @param to
+     * @return
+     */
     @RequestMapping(value = "doctor/get", method = RequestMethod.GET)
     protected String getDoctors(HttpServletRequest request,
             @RequestParam(value = "token", required = true, defaultValue = "") String token,
